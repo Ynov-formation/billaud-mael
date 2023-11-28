@@ -20,3 +20,7 @@ q
 Aregistry/src/main/java/com/ynov/registry/RegistryApplication.java,d\6\d6ab363586102b8fc44a490c466644871c398892
 @
 registry/pom.xml,7\9\790e7b835b3cadb1ef52a428c1e7f549def15635
+B
+ms-gateway/pom.xml,3\a\3aecf617aec673b6f933240b86c0ebbc29728f3c
+u
+Ems-gateway/src/main/java/com/ynov/msgateway/MsGatewayApplication.java,6\8\68b0b7cc5dad02f39155e86f311b03c9310b5fd1

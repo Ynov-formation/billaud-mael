@@ -11,6 +11,7 @@
         <module name="ms-operation" />
         <module name="ms-account" />
         <module name="ms-client" />
+        <module name="ms-gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -22,6 +23,7 @@
       <module name="ms-account" options="-parameters" />
       <module name="ms-acount" options="-parameters" />
       <module name="ms-client" options="-parameters" />
+      <module name="ms-gateway" options="-parameters" />
       <module name="ms-operation" options="-parameters" />
       <module name="registry" options="-parameters" />
     </option>
