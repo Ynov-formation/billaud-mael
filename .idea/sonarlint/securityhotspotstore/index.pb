@@ -16,3 +16,7 @@ B
 ms-account/pom.xml,a\c\aced3abeb764c00cd113fef834d2a1159469eb5d
 D
 ms-operation/pom.xml,e\4\e4a20984c1d7682ff46735ae04185539f11876b4
+q
+Aregistry/src/main/java/com/ynov/registry/RegistryApplication.java,d\6\d6ab363586102b8fc44a490c466644871c398892
+@
+registry/pom.xml,7\9\790e7b835b3cadb1ef52a428c1e7f549def15635
