@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ms-account" />
         <module name="ms-client" />
+        <module name="ms-operation" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,6 +21,7 @@
       <module name="ms-account" options="-parameters" />
       <module name="ms-acount" options="-parameters" />
       <module name="ms-client" options="-parameters" />
+      <module name="ms-operation" options="-parameters" />
     </option>
   </component>
 </project>
