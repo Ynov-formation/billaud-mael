@@ -25,10 +25,9 @@ public class Client {
   private String prenom;
   private String email;
   private LocalDate dateNaissance;
-  private Long accountId;
 
   /**
-   * Map a ClientDto to a Client
+   * Map un {@link ClientDto} dans un {@link Client}
    * @param clientDto {@link ClientDto}
    */
   public Client(ClientDto clientDto) {
@@ -37,6 +36,5 @@ public class Client {
     this.prenom = clientDto.getPrenom();
     this.email = clientDto.getEmail();
     this.dateNaissance = clientDto.getDateNaissance();
-    this.accountId = clientDto.getAccountId();
   }
 }

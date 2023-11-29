@@ -19,10 +19,9 @@ public class ClientDto {
   private String email;
   @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate dateNaissance;
-  private Long accountId;
 
   /**
-   * Map a Client to a clientDto
+   * Map un {@link Client} dans un {@link ClientDto}
    * @param client {@link Client}
    */
   public ClientDto(Client client) {
@@ -31,6 +30,5 @@ public class ClientDto {
     this.prenom = client.getPrenom();
     this.email = client.getEmail();
     this.dateNaissance = client.getDateNaissance();
-    this.accountId = client.getAccountId();
   }
 }
