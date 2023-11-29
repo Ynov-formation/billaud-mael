@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("v1/clients")
+@RequestMapping("client/v1")
 @CrossOrigin("*")
 public class ClientController {
   private final ClientService clientService;
@@ -23,7 +23,7 @@ public class ClientController {
     Optional<ClientDto> createdClient = clientService.create(clientDto);
     return createdClient
         .<ResponseEntity<Object>>map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.badRequest().body("Erreur lors de la création ou utilisateur existe déjà"));
+        .orElseGet(() -> ResponseEntity.badRequest().body("Erreur lors de la création ou le client existe déjà"));
 
   }
 
