@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="t_client")
+@Table(name = "t_client")
 public class Client {
   @Id
   @GeneratedValue
@@ -28,6 +28,7 @@ public class Client {
 
   /**
    * Map un {@link ClientDto} dans un {@link Client}
+   *
    * @param clientDto {@link ClientDto}
    */
   public Client(ClientDto clientDto) {

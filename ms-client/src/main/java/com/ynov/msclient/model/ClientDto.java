@@ -17,11 +17,12 @@ public class ClientDto {
   private String nom;
   private String prenom;
   private String email;
-  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate dateNaissance;
 
   /**
    * Map un {@link Client} dans un {@link ClientDto}
+   *
    * @param client {@link Client}
    */
   public ClientDto(Client client) {
