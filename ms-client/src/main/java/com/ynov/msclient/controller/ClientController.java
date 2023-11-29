@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("v1/clients")
@@ -18,24 +19,22 @@ public class ClientController {
   }
 
   @PostMapping
-  public ResponseEntity<ClientDto> create(@RequestBody ClientDto clientDto) {
-    return clientService.create(clientDto)
-      .map(ResponseEntity::ok)
-      .orElse(ResponseEntity.badRequest().build());
+  public ResponseEntity<Object> create(@RequestBody ClientDto clientDto) {
+    Optional<ClientDto> createdClient = clientService.create(clientDto);
+    return createdClient
+        .<ResponseEntity<Object>>map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.badRequest().body("Erreur lors de la création ou utilisateur existe déjà"));
+
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ClientDto> findById(@PathVariable Long id) {
-    return clientService.findById(id)
-      .map(ResponseEntity::ok)
-      .orElse(ResponseEntity.notFound().build());
+    return clientService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   @GetMapping("/email/{email}")
   public ResponseEntity<ClientDto> findByEmail(@PathVariable String email) {
-    return clientService.findByEmail(email)
-      .map(ResponseEntity::ok)
-      .orElse(ResponseEntity.notFound().build());
+    return clientService.findByEmail(email).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   @GetMapping
