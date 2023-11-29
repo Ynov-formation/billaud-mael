@@ -46,3 +46,15 @@ n
 >ms-client/src/main/java/com/ynov/msclient/model/ClientDto.java,c\b\cbbb3c01b2341f454a03e63698cb863b9e6bfc2a
 z
 Jms-client/src/main/java/com/ynov/msclient/controller/ClientController.java,1\d\1d8ac6fc973285b24f7b1ed43e10b06f0f87b0ae
+}
+Mms-account/src/main/java/com/ynov/msaccount/controller/AccountController.java,7\0\70769ff8295362b8d1656287d3fb3032b44f9af1
+n
+>ms-account/src/main/java/com/ynov/msaccount/model/Account.java,1\7\17a33d608b7c9040eb2c954c6f19b978b441a767
+q
+Ams-account/src/main/java/com/ynov/msaccount/model/AccountDto.java,4\3\4373772ed0d04bfa4454bec64447de23d30351fa
+}
+Mms-account/src/main/java/com/ynov/msaccount/repository/AccountRepository.java,8\d\8d3b7bbde65db804e95ff6caaf64ddb52171ca2e
+w
+Gms-account/src/main/java/com/ynov/msaccount/service/AccountService.java,f\5\f564622491a3a714f3624731e8076ed3867b2ef5
+{
+Kms-account/src/main/java/com/ynov/msaccount/service/AccountServiceImpl.java,f\9\f9f99ff2898fcd074310c6f506f8aacab5776174
