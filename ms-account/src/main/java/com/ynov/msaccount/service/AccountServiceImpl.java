@@ -27,7 +27,7 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public Optional<AccountDto> create(AccountDto account, Long clientId, String clientEmail) {
+  public AccountDto create(AccountDto account, Long clientId, String clientEmail) {
     RestTemplate restTemplate = new RestTemplate();
 
     // Appels API au ms_client pour vérifier que le client existe depuis son id ou son email
@@ -75,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public Optional<AccountDto> findById(Long id) {
+  public AccountDto findById(Long id) {
     try {
       Optional<Account> result = accountRepository.findById(id);
       return result.map(AccountDto::new);

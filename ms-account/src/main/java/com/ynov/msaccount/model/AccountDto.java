@@ -26,6 +26,10 @@ public class AccountDto {
     this.clientId = account.getClientId();
   }
 
+  /**
+   * Map un {@link AccountDto} dans un {@link AccountDto}
+   * @param accountDto {@link AccountDto}
+   */
   public AccountDto(AccountDto accountDto) {
     this.id = accountDto.getId();
     this.libelle = accountDto.getLibelle();

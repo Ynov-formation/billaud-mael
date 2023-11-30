@@ -15,7 +15,7 @@ public interface AccountService {
    *
    * @return le {@link AccountDto} crée ou Optional.empty()
    */
-  Optional<AccountDto> create(AccountDto account, Long clientId, String clientEmail);
+  AccountDto create(AccountDto account, Long clientId, String clientEmail);
 
   /**
    * Recherche d'un compte bancaire par son id
@@ -24,7 +24,7 @@ public interface AccountService {
    *
    * @return le {@link AccountDto} trouvé ou Optional.empty() si le compte bancaire n'existe pas
    */
-  Optional<AccountDto> findById(Long id);
+  AccountDto findById(Long id);
 
   /**
    * Récupération de tous les comptes bancaires d'un client
