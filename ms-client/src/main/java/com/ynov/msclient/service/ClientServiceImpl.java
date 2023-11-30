@@ -44,8 +44,8 @@ public class ClientServiceImpl implements ClientService {
         return new ClientFailure(FailureEnum.CLIENT_NOT_EXISTS);
       }
 
-      Client clientToUpdate = new Client(client);
-      Util.copyNonNullProperties(clientToUpdate, clientExisting.get());
+      client.setId(id);
+      Util.copyNonNullProperties(new Client(client), clientExisting.get());
       return new ClientDto(clientRepository.save(clientExisting.get()));
     } catch (Exception e) {
       return new ClientFailure(FailureEnum.DATABASE);
