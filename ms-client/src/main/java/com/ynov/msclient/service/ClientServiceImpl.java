@@ -1,5 +1,7 @@
 package com.ynov.msclient.service;
 
+import com.ynov.msclient.expection.ClientFailure;
+import com.ynov.msclient.expection.FailureEnum;
 import com.ynov.msclient.model.Client;
 import com.ynov.msclient.model.ClientDto;
 import com.ynov.msclient.repository.ClientRepository;
@@ -21,66 +23,66 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
-  public Optional<ClientDto> create(ClientDto clientDto) {
+  public ClientDto create(ClientDto clientDto) {
     if (clientRepository.findByEmail(clientDto.getEmail()) != null) {
-      return Optional.empty();
+      return new ClientFailure(FailureEnum.CLIENT_ALREADY_EXISTS);
     }
 
     Client clientToSave = new Client(clientDto);
     try {
-      return Optional.of(new ClientDto(clientRepository.save(clientToSave)));
+      return new ClientDto(clientRepository.save(clientToSave));
     } catch (Exception e) {
-      return Optional.empty();
+      return new ClientFailure(FailureEnum.DATABASE);
     }
   }
 
   @Override
-  public Optional<ClientDto> update(Long id, ClientDto client) {
+  public ClientDto update(Long id, ClientDto client) {
     try {
       Optional<Client> clientExisting = clientRepository.findById(id);
       if (clientExisting.isEmpty()) {
-        return Optional.empty();
+        return new ClientFailure(FailureEnum.CLIENT_NOT_EXISTS);
       }
 
       Client clientToUpdate = new Client(client);
       Util.copyNonNullProperties(clientToUpdate, clientExisting.get());
-      return Optional.of(new ClientDto(clientRepository.save(clientExisting.get())));
+      return new ClientDto(clientRepository.save(clientExisting.get()));
     } catch (Exception e) {
-      return Optional.empty();
+      return new ClientFailure(FailureEnum.DATABASE);
     }
   }
 
   @Override
-  public boolean delete(Long id) {
+  public ClientDto delete(Long id) {
     try {
       if (!clientRepository.existsById(id)) {
-        return false;
+        return new ClientFailure(FailureEnum.CLIENT_NOT_EXISTS);
       }
       clientRepository.deleteById(id);
-      return true;
+      return new ClientDto();
     } catch (Exception e) {
-      return false;
+      return new ClientFailure(FailureEnum.DATABASE);
     }
 
   }
 
   @Override
-  public Optional<ClientDto> findById(Long id) {
+  public ClientDto findById(Long id) {
     try {
       Optional<Client> result = clientRepository.findById(id);
-      return result.map(ClientDto::new);
+      return result.map(ClientDto::new).orElseGet(() -> new ClientFailure(FailureEnum.CLIENT_NOT_EXISTS));
     } catch (Exception e) {
-      return Optional.empty();
+      return new ClientFailure(FailureEnum.DATABASE);
     }
   }
 
   @Override
-  public Optional<ClientDto> findByEmail(String email) {
+  public ClientDto findByEmail(String email) {
     try {
       Optional<Client> result = Optional.ofNullable(clientRepository.findByEmail(email));
-      return result.map(ClientDto::new);
+      return result.map(ClientDto::new).orElseGet(() -> new ClientFailure(FailureEnum.CLIENT_NOT_EXISTS));
     } catch (Exception e) {
-      return Optional.empty();
+      return new ClientFailure(FailureEnum.DATABASE);
     }
   }
 
