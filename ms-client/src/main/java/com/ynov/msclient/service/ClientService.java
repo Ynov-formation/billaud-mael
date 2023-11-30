@@ -1,10 +1,9 @@
 package com.ynov.msclient.service;
 
 import com.ynov.msclient.model.ClientDto;
-import com.ynov.msclient.expection.ClientFailure;
+import com.ynov.msclient.exception.ClientFailure;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ClientService {
   /**

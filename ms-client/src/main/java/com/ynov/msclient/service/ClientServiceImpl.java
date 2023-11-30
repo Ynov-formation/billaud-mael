@@ -1,7 +1,7 @@
 package com.ynov.msclient.service;
 
-import com.ynov.msclient.expection.ClientFailure;
-import com.ynov.msclient.expection.FailureEnum;
+import com.ynov.msclient.exception.ClientFailure;
+import com.ynov.msclient.exception.FailureEnum;
 import com.ynov.msclient.model.Client;
 import com.ynov.msclient.model.ClientDto;
 import com.ynov.msclient.repository.ClientRepository;

@@ -1,7 +1,7 @@
 package com.ynov.msclient.controller;
 
-import com.ynov.msclient.expection.ClientFailure;
-import com.ynov.msclient.expection.FailureEnum;
+import com.ynov.msclient.exception.ClientFailure;
+import com.ynov.msclient.exception.FailureEnum;
 import com.ynov.msclient.model.ClientDto;
 import com.ynov.msclient.service.ClientService;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("client/v1")

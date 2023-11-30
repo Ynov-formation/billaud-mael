@@ -1,4 +1,4 @@
-package com.ynov.msclient.expection;
+package com.ynov.msclient.exception;
 
 import lombok.Getter;
 
