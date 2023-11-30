@@ -1,9 +1,10 @@
 package com.ynov.msaccount.controller;
 
-import com.ynov.msaccount.exception.AccountAlreadyExists;
-import com.ynov.msaccount.exception.ClientNotExists;
+import com.ynov.msaccount.exception.AccountFailure;
+import com.ynov.msaccount.exception.FailureEnum;
 import com.ynov.msaccount.model.AccountDto;
 import com.ynov.msaccount.service.AccountService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,29 +29,24 @@ public class AccountController {
       return ResponseEntity.badRequest().body("L'identifiant ou le mail du client doit être renseigné");
     }
 
-    Optional<AccountDto> account = accountService.create(accountDto, clientId, clientEmail);
+    AccountDto createdAccount = accountService.create(accountDto, clientId, clientEmail);
 
-    if (account.isEmpty()) {
-      return ResponseEntity.badRequest().body("Erreur lors de la création");
+    if (createdAccount instanceof AccountFailure accountFailure) {
+      return checkAccountFailure(accountFailure);
     }
 
-    if (account.get() instanceof AccountAlreadyExists) {
-      return ResponseEntity.badRequest().body("Le compte existe déjà");
-    }
-
-    if (account.get() instanceof ClientNotExists clientNotExists) {
-      if (clientNotExists.isErrorFromClientId()) {
-        return ResponseEntity.badRequest().body("L'identifiant du client n'est pas correcte.");
-      }
-      return ResponseEntity.badRequest().body("L'adresse email du client n'est pas correcte.");
-    }
-
-    return ResponseEntity.ok(account.get());
+    return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<AccountDto> findById(@PathVariable Long id) {
-    return accountService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+  public ResponseEntity<Object> findById(@PathVariable Long id) {
+    AccountDto account = accountService.findById(id);
+
+    if (account instanceof AccountFailure accountFailure) {
+      return checkAccountFailure(accountFailure);
+    }
+
+    return new ResponseEntity<>(account, HttpStatus.OK);
   }
 
   @GetMapping("/client/{id}")
@@ -61,5 +57,25 @@ public class AccountController {
   @GetMapping
   public ResponseEntity<List<AccountDto>> findAll() {
     return ResponseEntity.ok(accountService.findAll());
+  }
+
+  /**
+   * Vérifie le type d'exception et retourne la {@link ResponseEntity} correspondante
+   *
+   * @param accountFailure {@link AccountFailure}
+   *
+   * @return {@link ResponseEntity}
+   */
+  private ResponseEntity<Object> checkAccountFailure(AccountFailure accountFailure) {
+    return switch (accountFailure.getExceptionType()) {
+      case ACCOUNT_NOT_EXISTS ->
+          new ResponseEntity<>(FailureEnum.ACCOUNT_NOT_EXISTS.getMessage(), HttpStatus.NOT_FOUND);
+      case ACCOUNT_ALREADY_EXISTS ->
+          new ResponseEntity<>(FailureEnum.ACCOUNT_ALREADY_EXISTS.getMessage(), HttpStatus.CONFLICT);
+      case CAN_NOT_GET_CLIENT ->
+          new ResponseEntity<>(FailureEnum.CAN_NOT_GET_CLIENT.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+      case CLIENT_NOT_EXISTS -> new ResponseEntity<>(FailureEnum.CLIENT_NOT_EXISTS.getMessage(), HttpStatus.NOT_FOUND);
+      case DATABASE -> new ResponseEntity<>(FailureEnum.DATABASE.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    };
   }
 }

@@ -82,3 +82,7 @@ v
 Fms-client/src/main/java/com/ynov/msclient/exception/ClientFailure.java,c\c\cc0258a6ad6b9f70cc0f5fe12d9ac16529de4f54
 t
 Dms-client/src/main/java/com/ynov/msclient/exception/FailureEnum.java,f\9\f96385c3140a5d3d8ccfc961d5ab5b97c5d97029
+y
+Ims-account/src/main/java/com/ynov/msaccount/exception/AccountFailure.java,5\0\5004103ed9172952a0a8cbb04e4e27a2f748552f
+v
+Fms-account/src/main/java/com/ynov/msaccount/exception/FailureEnum.java,e\5\e53dc137c7febdfa7a68dc6562ed861f6e469854

@@ -1,7 +1,7 @@
 package com.ynov.msaccount.service;
 
-import com.ynov.msaccount.exception.AccountAlreadyExists;
-import com.ynov.msaccount.exception.ClientNotExists;
+import com.ynov.msaccount.exception.AccountFailure;
+import com.ynov.msaccount.exception.FailureEnum;
 import com.ynov.msaccount.model.Account;
 import com.ynov.msaccount.model.AccountDto;
 import com.ynov.msaccount.model.ClientDto;
@@ -20,7 +20,6 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
 
   private final AccountRepository accountRepository;
-  private final String clientServiceUrl = "http://localhost:8888/client/v1";
 
   public AccountServiceImpl(AccountRepository accountRepository) {
     this.accountRepository = accountRepository;
@@ -28,34 +27,33 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public AccountDto create(AccountDto account, Long clientId, String clientEmail) {
+    final String clientServiceUrl = "http://localhost:8888/client/v1";
     RestTemplate restTemplate = new RestTemplate();
 
     // Appels API au ms_client pour vérifier que le client existe depuis son id ou son email
     if (clientId != null) {
-      ClientNotExists clientNotExists = new ClientNotExists(account, true);
       try {
         Optional<ClientDto> client =
             Optional.ofNullable(restTemplate.getForObject(clientServiceUrl + "/{id}", ClientDto.class, clientId));
         if (client.isEmpty()) {
-          return Optional.of(clientNotExists);
+          return new AccountFailure(FailureEnum.CLIENT_NOT_EXISTS);
         }
         account.setClientId(clientId);
       } catch (HttpClientErrorException e) {
-        return Optional.of(clientNotExists);
+        return new AccountFailure(FailureEnum.CAN_NOT_GET_CLIENT);
       }
     }
 
     if (clientEmail != null) {
-      ClientNotExists clientNotExists = new ClientNotExists(account, false);
       try {
         Optional<ClientDto> client = Optional.ofNullable(
             restTemplate.getForObject(clientServiceUrl + "/email/{email}", ClientDto.class, clientEmail));
         if (client.isEmpty()) {
-          return Optional.of(clientNotExists);
+          return new AccountFailure(FailureEnum.CLIENT_NOT_EXISTS);
         }
         account.setClientId(client.get().getId());
       } catch (HttpClientErrorException e) {
-        return Optional.of(clientNotExists);
+        return new AccountFailure(FailureEnum.CAN_NOT_GET_CLIENT);
       }
     }
 
@@ -63,14 +61,14 @@ public class AccountServiceImpl implements AccountService {
     List<AccountDto> accounts = findByClientId(account.getClientId());
     boolean accountAlreadyExists = accounts.parallelStream().anyMatch(a -> a.getLibelle().equals(account.getLibelle()));
     if (accountAlreadyExists) {
-      return Optional.of(new AccountAlreadyExists(account));
+      return new AccountFailure(FailureEnum.ACCOUNT_ALREADY_EXISTS);
     }
 
     Account accountToSave = new Account(account);
     try {
-      return Optional.of(new AccountDto(accountRepository.save(accountToSave)));
+      return new AccountDto(accountRepository.save(accountToSave));
     } catch (Exception e) {
-      return Optional.empty();
+      return new AccountFailure(FailureEnum.DATABASE);
     }
   }
 
@@ -78,9 +76,9 @@ public class AccountServiceImpl implements AccountService {
   public AccountDto findById(Long id) {
     try {
       Optional<Account> result = accountRepository.findById(id);
-      return result.map(AccountDto::new);
+      return result.map(AccountDto::new).orElse(new AccountFailure(FailureEnum.ACCOUNT_NOT_EXISTS));
     } catch (Exception e) {
-      return Optional.empty();
+      return new AccountFailure(FailureEnum.DATABASE);
     }
   }
 
