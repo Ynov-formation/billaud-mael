@@ -1,5 +1,7 @@
 package com.ynov.msclient.controller;
 
+import com.ynov.msclient.expection.ClientFailure;
+import com.ynov.msclient.expection.FailureEnum;
 import com.ynov.msclient.model.ClientDto;
 import com.ynov.msclient.service.ClientService;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,10 @@ public class ClientController {
 
   @PostMapping
   public ResponseEntity<Object> create(@RequestBody ClientDto clientDto) {
-    Optional<ClientDto> createdClient = clientService.create(clientDto);
+    ClientDto createdClient = clientService.create(clientDto);
 
-    if (createdClient.isEmpty()) {
-      return ResponseEntity.badRequest().body("Erreur lors de la création ou le client existe déjà");
+    if (createdClient instanceof ClientFailure clientFailure) {
+      return checkClientFailure(clientFailure);
     }
 
     return new ResponseEntity<>(createdClient, HttpStatus.CREATED);
@@ -32,10 +34,10 @@ public class ClientController {
 
   @PutMapping("/{id}")
   public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody ClientDto clientDto) {
-    Optional<ClientDto> updatedClient = clientService.update(id, clientDto);
+    ClientDto updatedClient = clientService.update(id, clientDto);
 
-    if (updatedClient.isEmpty()) {
-      return ResponseEntity.badRequest().body("Erreur lors de la mise à jour ou le client n'existe pas");
+    if (updatedClient instanceof ClientFailure clientFailure) {
+      return checkClientFailure(clientFailure);
     }
 
     return new ResponseEntity<>(updatedClient, HttpStatus.OK);
@@ -43,25 +45,53 @@ public class ClientController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> delete(@PathVariable Long id) {
-    if (!clientService.delete(id)) {
-      return ResponseEntity.badRequest().body("Erreur lors de la suppression ou le client n'existe pas");
+    ClientDto deletedClient = clientService.delete(id);
+
+    if (deletedClient instanceof ClientFailure clientFailure) {
+      return checkClientFailure(clientFailure);
     }
 
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<ClientDto> findById(@PathVariable Long id) {
-    return clientService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+  public ResponseEntity<Object> findById(@PathVariable Long id) {
+    ClientDto client = clientService.findById(id);
+
+    if (client instanceof ClientFailure clientFailure) {
+      return checkClientFailure(clientFailure);
+    }
+
+    return new ResponseEntity<>(client, HttpStatus.OK);
   }
 
   @GetMapping("/email/{email}")
-  public ResponseEntity<ClientDto> findByEmail(@PathVariable String email) {
-    return clientService.findByEmail(email).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+  public ResponseEntity<Object> findByEmail(@PathVariable String email) {
+    ClientDto client = clientService.findByEmail(email);
+
+    if (client instanceof ClientFailure clientFailure) {
+      return checkClientFailure(clientFailure);
+    }
+
+    return new ResponseEntity<>(client, HttpStatus.OK);
   }
 
   @GetMapping
   public ResponseEntity<List<ClientDto>> findAll() {
+
     return ResponseEntity.ok(clientService.findAll());
+  }
+
+  /**
+   * Vérifie le type d'exception et retourne une ResponseEntity en fonction
+   * @param clientFailure {@link ClientFailure}
+   * @return {@link ResponseEntity}
+   */
+  private ResponseEntity<Object> checkClientFailure(ClientFailure clientFailure) {
+    return switch (clientFailure.getExceptionType()) {
+      case CLIENT_NOT_EXISTS -> new ResponseEntity<>(FailureEnum.CLIENT_NOT_EXISTS.getMessage(), HttpStatus.NOT_FOUND);
+      case CLIENT_ALREADY_EXISTS -> ResponseEntity.badRequest().body(FailureEnum.CLIENT_ALREADY_EXISTS.getMessage());
+      case DATABASE -> ResponseEntity.badRequest().body(FailureEnum.DATABASE.getMessage());
+    };
   }
 }

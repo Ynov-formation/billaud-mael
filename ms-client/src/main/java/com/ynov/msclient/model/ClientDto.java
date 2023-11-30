@@ -32,4 +32,17 @@ public class ClientDto {
     this.email = client.getEmail();
     this.dateNaissance = client.getDateNaissance();
   }
+
+  /**
+   * Map un {@link ClientDto} dans un {@link ClientDto}
+   *
+   * @param clientDto {@link ClientDto}
+   */
+  public ClientDto(ClientDto clientDto) {
+    this.id = clientDto.getId();
+    this.nom = clientDto.getNom();
+    this.prenom = clientDto.getPrenom();
+    this.email = clientDto.getEmail();
+    this.dateNaissance = clientDto.getDateNaissance();
+  }
 }
