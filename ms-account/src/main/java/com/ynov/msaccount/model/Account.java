@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="t_account")
+@Table(name = "t_account")
 public class Account {
   @Id
   @GeneratedValue
@@ -25,6 +25,7 @@ public class Account {
 
   /**
    * Map un {@link AccountDto} dans un {@link Account}
+   *
    * @param accountDto {@link AccountDto}
    */
   public Account(AccountDto accountDto) {
@@ -32,5 +33,17 @@ public class Account {
     this.libelle = accountDto.getLibelle();
     this.solde = accountDto.getSolde();
     this.clientId = accountDto.getClientId();
+  }
+
+  /**
+   * Map un {@link Account} dans un {@link Account}
+   *
+   * @param account {@link Account}
+   */
+  public Account(Account account) {
+    this.id = account.getId();
+    this.libelle = account.getLibelle();
+    this.solde = account.getSolde();
+    this.clientId = account.getClientId();
   }
 }

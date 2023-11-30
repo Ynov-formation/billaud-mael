@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/account/v1")
@@ -36,6 +35,28 @@ public class AccountController {
     }
 
     return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody AccountDto accountDto) {
+    AccountDto updatedAccount = accountService.update(id, accountDto);
+
+    if (updatedAccount instanceof AccountFailure clientFailure) {
+      return checkAccountFailure(clientFailure);
+    }
+
+    return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Object> delete(@PathVariable Long id) {
+    AccountDto deletedClient = accountService.delete(id);
+
+    if (deletedClient instanceof AccountFailure clientFailure) {
+      return checkAccountFailure(clientFailure);
+    }
+
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @GetMapping("/{id}")
