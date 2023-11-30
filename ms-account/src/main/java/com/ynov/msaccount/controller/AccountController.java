@@ -1,11 +1,14 @@
 package com.ynov.msaccount.controller;
 
+import com.ynov.msaccount.exception.AccountAlreadyExists;
+import com.ynov.msaccount.exception.ClientNotExists;
 import com.ynov.msaccount.model.AccountDto;
 import com.ynov.msaccount.service.AccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/account/v1")
@@ -24,10 +27,25 @@ public class AccountController {
     if (clientId == null && clientEmail == null) {
       return ResponseEntity.badRequest().body("L'identifiant ou le mail du client doit être renseigné");
     }
-    return accountService
-        .create(accountDto, clientId, clientEmail)
-        .<ResponseEntity<Object>>map(ResponseEntity::ok)
-        .orElse(ResponseEntity.badRequest().body("Erreur lors de la création ou le client à déjà créée ce compte"));
+
+    Optional<AccountDto> account = accountService.create(accountDto, clientId, clientEmail);
+
+    if (account.isEmpty()) {
+      return ResponseEntity.badRequest().body("Erreur lors de la création");
+    }
+
+    if (account.get() instanceof AccountAlreadyExists) {
+      return ResponseEntity.badRequest().body("Le compte existe déjà");
+    }
+
+    if (account.get() instanceof ClientNotExists clientNotExists) {
+      if (clientNotExists.isErrorFromClientId()) {
+        return ResponseEntity.badRequest().body("L'identifiant du client n'est pas correcte.");
+      }
+      return ResponseEntity.badRequest().body("L'adresse email du client n'est pas correcte.");
+    }
+
+    return ResponseEntity.ok(account.get());
   }
 
   @GetMapping("/{id}")

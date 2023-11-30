@@ -25,4 +25,11 @@ public class AccountDto {
     this.solde = account.getSolde();
     this.clientId = account.getClientId();
   }
+
+  public AccountDto(AccountDto accountDto) {
+    this.id = accountDto.getId();
+    this.libelle = accountDto.getLibelle();
+    this.solde = accountDto.getSolde();
+    this.clientId = accountDto.getClientId();
+  }
 }
