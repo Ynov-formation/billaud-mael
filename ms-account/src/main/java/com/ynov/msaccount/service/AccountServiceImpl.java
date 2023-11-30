@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -108,6 +109,20 @@ public class AccountServiceImpl implements AccountService {
     } catch (Exception e) {
       return new AccountFailure(FailureEnum.DATABASE);
     }
+  }
+
+  @Override
+  public List<Long> deleteByClientId(Long id) {
+    List<AccountDto> accountsToBeDeleted = findByClientId(id);
+    List<Long> deletedAccountsId = new ArrayList<>();
+    accountsToBeDeleted.parallelStream().forEach(account -> {
+      AccountDto deletedAccount = delete(account.getId());
+      if (deletedAccount instanceof AccountFailure) {
+        return;
+      }
+      deletedAccountsId.add(account.getId());
+    });
+    return deletedAccountsId;
   }
 
   @Override

@@ -46,6 +46,15 @@ public interface AccountService {
   AccountDto delete(Long id);
 
   /**
+   * Suppression de tous les comptes bancaires d'un client
+   *
+   * @param id id du client
+   *
+   * @return la liste des identifiants des {@link AccountDto} supprimés
+   */
+  List<Long> deleteByClientId(Long id);
+
+  /**
    * Recherche d'un compte bancaire par son id
    *
    * @param id id du compte bancaire

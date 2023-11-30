@@ -59,6 +59,17 @@ public class AccountController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
+  @DeleteMapping("/client/{id}")
+  public ResponseEntity<Object> deleteByClientId(@PathVariable Long id) {
+    List<Long> deletedAccounts = accountService.deleteByClientId(id);
+
+    if (deletedAccounts.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    return new ResponseEntity<>(deletedAccounts, HttpStatus.OK);
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<Object> findById(@PathVariable Long id) {
     AccountDto account = accountService.findById(id);
