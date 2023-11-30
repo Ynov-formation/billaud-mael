@@ -37,6 +37,14 @@ public interface AccountService {
   AccountDto update(Long id, AccountDto account);
 
   /**
+   * Mise à jour du solde d'un compte bancaire
+   * @param id id du compte bancaire
+   * @param solde nouveau solde du compte bancaire
+   * @return le {@link AccountDto} mis à jour
+   */
+  AccountDto updateSolde(Long id, Double solde);
+
+  /**
    * Suppression d'un compte bancaire
    *
    * @param id id du compte bancaire

@@ -33,8 +33,6 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public AccountDto create(AccountDto account, Long clientId, String clientEmail) {
-
-
     // Appels API au ms_client pour vérifier que le client existe depuis son id ou son email
     if (clientId != null) {
       AccountDto client = findClientByClientId(clientId);
@@ -93,6 +91,22 @@ public class AccountServiceImpl implements AccountService {
         }
       }
       return new AccountDto(accountRepository.save(accountToUpdate));
+    } catch (Exception e) {
+      return new AccountFailure(FailureEnum.DATABASE);
+    }
+  }
+
+  @Override
+  public AccountDto updateSolde(Long id, Double solde) {
+    try {
+      // Compte stocké en base de donnée
+      Account accountExisting = accountRepository.findById(id).orElse(null);
+      if (accountExisting == null) {
+        return new AccountFailure(FailureEnum.ACCOUNT_NOT_EXISTS);
+      }
+
+      accountExisting.setSolde(solde);
+      return new AccountDto(accountRepository.save(accountExisting));
     } catch (Exception e) {
       return new AccountFailure(FailureEnum.DATABASE);
     }

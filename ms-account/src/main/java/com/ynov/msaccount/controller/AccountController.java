@@ -48,6 +48,17 @@ public class AccountController {
     return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
   }
 
+  @PatchMapping("/solde/{id}")
+  public ResponseEntity<Object> updateSolde(@PathVariable Long id, @RequestParam Double solde) {
+    AccountDto updatedAccount = accountService.updateSolde(id, solde);
+
+    if (updatedAccount instanceof AccountFailure clientFailure) {
+      return checkAccountFailure(clientFailure);
+    }
+
+    return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> delete(@PathVariable Long id) {
     AccountDto deletedClient = accountService.delete(id);
