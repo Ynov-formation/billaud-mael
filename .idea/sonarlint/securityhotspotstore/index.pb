@@ -58,3 +58,15 @@ w
 Gms-account/src/main/java/com/ynov/msaccount/service/AccountService.java,f\5\f564622491a3a714f3624731e8076ed3867b2ef5
 {
 Kms-account/src/main/java/com/ynov/msaccount/service/AccountServiceImpl.java,f\9\f9f99ff2898fcd074310c6f506f8aacab5776174
+;
+Ennonce.txt,2\7\27b9c8715f249f92ef1386c76e0cc4b52cbd6d3b
+p
+@ms-account/src/main/java/com/ynov/msaccount/model/ClientDto.java,3\f\3f9da348bcfdfae5332dc8eea80da499f090df52
+z
+Jms-account/src/main/java/com/ynov/msaccount/exception/CLientNotExists.java,f\c\fcc46481277a0100453d60a6f12c63fd4f770c7f
+z
+Jms-account/src/main/java/com/ynov/msaccount/exception/ClientNotExists.java,f\9\f9aee3b41732f46b0986164b6354d2e7d7ff5d49
+~
+Nms-account/src/main/java/com/ynov/msaccount/exception/AccountAleadyExists.java,3\6\3615de269e6f8d3491871e8f94b31bbde4d9b930
+
+Oms-account/src/main/java/com/ynov/msaccount/exception/AccountAlreadyExists.java,0\c\0c70d96dec02a47f08afc0c79724bb125481fbc8
