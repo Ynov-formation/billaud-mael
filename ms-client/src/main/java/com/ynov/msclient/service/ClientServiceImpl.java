@@ -3,6 +3,7 @@ package com.ynov.msclient.service;
 import com.ynov.msclient.model.Client;
 import com.ynov.msclient.model.ClientDto;
 import com.ynov.msclient.repository.ClientRepository;
+import com.ynov.msclient.util.Util;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,36 @@ public class ClientServiceImpl implements ClientService {
     } catch (Exception e) {
       return Optional.empty();
     }
+  }
+
+  @Override
+  public Optional<ClientDto> update(Long id, ClientDto client) {
+    try {
+      Optional<Client> clientExisting = clientRepository.findById(id);
+      if (clientExisting.isEmpty()) {
+        return Optional.empty();
+      }
+
+      Client clientToUpdate = new Client(client);
+      Util.copyNonNullProperties(clientToUpdate, clientExisting.get());
+      return Optional.of(new ClientDto(clientRepository.save(clientExisting.get())));
+    } catch (Exception e) {
+      return Optional.empty();
+    }
+  }
+
+  @Override
+  public boolean delete(Long id) {
+    try {
+      if (!clientRepository.existsById(id)) {
+        return false;
+      }
+      clientRepository.deleteById(id);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+
   }
 
   @Override

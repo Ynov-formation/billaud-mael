@@ -17,7 +17,7 @@ public class ClientDto {
   private String nom;
   private String prenom;
   private String email;
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", locale = "fr_FR", timezone = "Europe/Paris")
   private LocalDate dateNaissance;
 
   /**

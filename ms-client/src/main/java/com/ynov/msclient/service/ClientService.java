@@ -16,6 +16,25 @@ public interface ClientService {
   Optional<ClientDto> create(ClientDto client);
 
   /**
+   * Mise à jour d'un client
+   *
+   * @param id id du client
+   * @param client {@link ClientDto}
+   *
+   * @return le {@link ClientDto} mis à jour ou Optional.empty() si le client n'existe pas
+   */
+  Optional<ClientDto> update(Long id, ClientDto client);
+
+  /**
+   * Suppression d'un client
+   *
+   * @param id id du client
+   *
+   * @return true si le client a été supprimé, false sinon
+   */
+  boolean delete(Long id);
+
+  /**
    * Recherche d'un client par son id
    *
    * @param id id du client
