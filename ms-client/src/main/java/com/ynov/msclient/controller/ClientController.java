@@ -82,15 +82,18 @@ public class ClientController {
   }
 
   /**
-   * Vérifie le type d'exception et retourne une ResponseEntity en fonction
+   * Vérifie le type d'exception et retourne la {@link ResponseEntity} correspondante
+   *
    * @param clientFailure {@link ClientFailure}
+   *
    * @return {@link ResponseEntity}
    */
   private ResponseEntity<Object> checkClientFailure(ClientFailure clientFailure) {
     return switch (clientFailure.getExceptionType()) {
       case CLIENT_NOT_EXISTS -> new ResponseEntity<>(FailureEnum.CLIENT_NOT_EXISTS.getMessage(), HttpStatus.NOT_FOUND);
-      case CLIENT_ALREADY_EXISTS -> ResponseEntity.badRequest().body(FailureEnum.CLIENT_ALREADY_EXISTS.getMessage());
-      case DATABASE -> ResponseEntity.badRequest().body(FailureEnum.DATABASE.getMessage());
+      case CLIENT_ALREADY_EXISTS ->
+          new ResponseEntity<>(FailureEnum.CLIENT_ALREADY_EXISTS.getMessage(), HttpStatus.CONFLICT);
+      case DATABASE -> new ResponseEntity<>(FailureEnum.DATABASE.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     };
   }
 }
