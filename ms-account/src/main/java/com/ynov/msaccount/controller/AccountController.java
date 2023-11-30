@@ -48,7 +48,9 @@ public class AccountController {
     return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
   }
 
-  @PatchMapping("/solde/{id}")
+  // Utilisation d'un @PutMapping et non un @PatchMapping car
+  // le PATCH est mal supporté par le RestTemplate
+  @PutMapping("/solde/{id}")
   public ResponseEntity<Object> updateSolde(@PathVariable Long id, @RequestParam Double solde) {
     AccountDto updatedAccount = accountService.updateSolde(id, solde);
 
