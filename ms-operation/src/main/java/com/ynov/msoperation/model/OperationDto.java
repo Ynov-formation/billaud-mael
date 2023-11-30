@@ -16,10 +16,13 @@ public class OperationDto {
   private Long id;
   private OperationTypeEnum type;
   private Double montant;
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", locale = "fr_FR", timezone = "Europe/Paris")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", locale = "fr_FR",
+              timezone = "Europe/Paris")
   private LocalDateTime date;
   private Long accountId;
   private String accountLibelle;
+  private Double accountSolde;
+  private Long clientId;
   private String clientNom;
   private String clientPrenom;
 }
