@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum FailureEnum {
   CAN_NOT_GET_ACCOUNT("Impossible de récupérer le compte bancaire"),
+  CAN_NOT_UPDATE_SOLDE("Impossible de mettre à jour le solde du compte bancaire"),
   ACCOUNT_NOT_EXISTS("Le compte bancaire n'existe pas"),
   INSUFFICIENT_ACCOUNT_BALANCE("Solde insuffisant pour le débit"),
   CAN_NOT_GET_CLIENT("Impossible de récupérer le client"),
