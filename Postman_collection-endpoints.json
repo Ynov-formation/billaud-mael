@@ -1,0 +1,405 @@
+{
+	"info": {
+		"_postman_id": "2046beaf-4ce8-472b-be46-e00a8165e735",
+		"name": "Archi Logiciel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20569634"
+	},
+	"item": [
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "client",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nom\": \"Billaud\",\r\n    \"prenom\": \"Mael1\",\r\n    \"email\": \"email.test2@gmail.com\",\r\n    \"dateNaissance\": \"12-12-2012\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Gateway URL}}/client/v1"
+					},
+					"response": []
+				},
+				{
+					"name": "client/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 12,\r\n    \"nom\": \"Billaud2\",\r\n    \"prenom\": \"Mael2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Gateway URL}}/client/v1/152"
+					},
+					"response": []
+				},
+				{
+					"name": "client/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{Gateway URL}}/client/v1/102"
+					},
+					"response": []
+				},
+				{
+					"name": "client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Gateway URL}}/client/v1"
+					},
+					"response": []
+				},
+				{
+					"name": "client/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Gateway URL}}/client/v1/53"
+					},
+					"response": []
+				},
+				{
+					"name": "client/email/{email}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Gateway URL}}/client/v1/email/email.test@gmail.com"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"libelle\": \"Compte courant\",\r\n    \"solde\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Gateway URL}}/account/v1?client_id=1",
+							"host": [
+								"{{Gateway URL}}"
+							],
+							"path": [
+								"account",
+								"v1"
+							],
+							"query": [
+								{
+									"key": "client_email",
+									"value": "email.test2@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "client_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "account/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"libelle\": \"Compte courant 1\",\r\n    \"solde\": 20,\r\n    \"clientId\": 152\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Gateway URL}}/account/v1/202"
+					},
+					"response": []
+				},
+				{
+					"name": "account/solde/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Gateway URL}}/account/v1/solde/352?solde=100",
+							"host": [
+								"{{Gateway URL}}"
+							],
+							"path": [
+								"account",
+								"v1",
+								"solde",
+								"352"
+							],
+							"query": [
+								{
+									"key": "solde",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "account/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"libelle\": \"Compte courant\",\r\n    \"solde\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Gateway URL}}/account/v1/103"
+					},
+					"response": []
+				},
+				{
+					"name": "account/client/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"libelle\": \"Compte courant\",\r\n    \"solde\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Gateway URL}}/account/v1/client/1"
+					},
+					"response": []
+				},
+				{
+					"name": "account",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"libelle\": \"Compte courant\",\r\n    \"solde\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Gateway URL}}/account/v1"
+					},
+					"response": []
+				},
+				{
+					"name": "account/{id}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"libelle\": \"Compte courant\",\r\n    \"solde\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Gateway URL}}/account/v1/100"
+					},
+					"response": []
+				},
+				{
+					"name": "account/client/{id}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"libelle\": \"Compte courant\",\r\n    \"solde\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Gateway URL}}/account/v1/client/15"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Operation",
+			"item": [
+				{
+					"name": "operation/debit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{Gateway URL}}/operation/v1/debit?account_id=306&amount=950",
+							"host": [
+								"{{Gateway URL}}"
+							],
+							"path": [
+								"operation",
+								"v1",
+								"debit"
+							],
+							"query": [
+								{
+									"key": "account_id",
+									"value": "306"
+								},
+								{
+									"key": "amount",
+									"value": "950"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "operation/credit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{Gateway URL}}/operation/v1/credit?account_id=306&amount=1000",
+							"host": [
+								"{{Gateway URL}}"
+							],
+							"path": [
+								"operation",
+								"v1",
+								"credit"
+							],
+							"query": [
+								{
+									"key": "account_id",
+									"value": "306"
+								},
+								{
+									"key": "amount",
+									"value": "1000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "operation/virement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{Gateway URL}}/operation/v1/virement?account_to_debit_id=306&account_to_credit_id=352&amount=15",
+							"host": [
+								"{{Gateway URL}}"
+							],
+							"path": [
+								"operation",
+								"v1",
+								"virement"
+							],
+							"query": [
+								{
+									"key": "account_to_debit_id",
+									"value": "306"
+								},
+								{
+									"key": "account_to_credit_id",
+									"value": "352"
+								},
+								{
+									"key": "amount",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Gateway URL",
+			"value": "http://localhost:8888",
+			"type": "string"
+		}
+	]
+}

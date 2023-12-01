@@ -1,0 +1,11 @@
+Pour ce TP, vous allez développer une solution dans une architecture micro-service qui permettra de gérer les différentes opérations d'une banque.
+Sachant qu'une banque est une entité qui dispose d'une clientèle pour laquelle elle éffectue différentes opérations à savoir :
+- Les débits
+- Les crédits
+- Les virements (crédits + débits)
+
+La solution devra également permettre de réaliser les opérations de base, comme la gestion (ajout, la modification et la suppression) des clients, la gestion comptes ainsi que la gtestions des opérations bancaires.
+Vous devez choisir le découpage le plus adapté à l'architecture micro-service en vue de reduire la dépendance entre les composants et en respectant les principes SOLID et en favorisant la 
+qualité de l'architecture.
+
+Pensez à sécuriser toutes les APIs qui seront exposées.
