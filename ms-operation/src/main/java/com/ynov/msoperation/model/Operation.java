@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "t_client")
+@Table(name = "t_operation")
 public class Operation {
   @Id
   @GeneratedValue
