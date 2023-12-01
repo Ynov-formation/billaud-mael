@@ -137,6 +137,7 @@ public class OperationServiceImpl implements OperationService {
       return soldeUpdated;
     }
 
+    operationInformations.setSoldeAtOperation(operationInformations.getAccountSolde());
     operationInformations.setAccountSolde(soldeUpdated.getAccountSolde());
     operationInformations.setMontant(amount);
     operationInformations.setType(type);

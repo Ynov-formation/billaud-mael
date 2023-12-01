@@ -16,6 +16,7 @@ public class OperationDto {
   private Long id;
   private OperationTypeEnum type;
   private Double montant;
+  private Double soldeAtOperation;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", locale = "fr_FR",
               timezone = "Europe/Paris")
   private LocalDateTime date;
@@ -35,6 +36,7 @@ public class OperationDto {
     this.id = operation.getId();
     this.type = operation.getType();
     this.montant = operation.getMontant();
+    this.soldeAtOperation = operation.getSoldeAtOperation();
     this.date = operation.getDate();
     this.accountId = operation.getAccountId();
   }
