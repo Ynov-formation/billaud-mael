@@ -110,3 +110,5 @@ z
 Jms-operation/src/main/java/com/ynov/msoperation/exception/FailureEnum.java,4\d\4d42fb3a13af8facd4d2eb31d0b7ebcd8824de14
 n
 >ms-operation/src/main/java/com/ynov/msoperation/util/Util.java,c\9\c9362117a6c9f7aed9a1522e27013523d714ed8f
+Q
+!Postman_collection-endpoints.json,f\2\f2668a664778bb6f13c553611e5c1c0fc756c94e
