@@ -25,4 +25,17 @@ public class OperationDto {
   private Long clientId;
   private String clientNom;
   private String clientPrenom;
+
+  /**
+   * Map un {@link Operation} dans un {@link OperationDto}
+   *
+   * @param operation {@link Operation}
+   */
+  public OperationDto(Operation operation) {
+    this.id = operation.getId();
+    this.type = operation.getType();
+    this.montant = operation.getMontant();
+    this.date = operation.getDate();
+    this.accountId = operation.getAccountId();
+  }
 }

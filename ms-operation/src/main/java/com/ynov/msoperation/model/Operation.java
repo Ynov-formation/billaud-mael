@@ -25,4 +25,17 @@ public class Operation {
   private Double montant;
   private LocalDateTime date;
   private Long accountId;
+
+  /**
+   * Map un {@link OperationDto} dans un {@link Operation}
+   *
+   * @param operationDto {@link OperationDto}
+   */
+  public Operation(OperationDto operationDto) {
+    this.id = operationDto.getId();
+    this.type = operationDto.getType();
+    this.montant = operationDto.getMontant();
+    this.date = operationDto.getDate();
+    this.accountId = operationDto.getAccountId();
+  }
 }
