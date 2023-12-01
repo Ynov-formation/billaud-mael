@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,15 +44,57 @@ public class OperationServiceImpl implements OperationService {
       return new OperationFailure(FailureEnum.INSUFFICIENT_ACCOUNT_BALANCE);
     }
 
-    OperationDto soldeUpdated = setAccountSolde(operationInformations.getAccountId(),
-        operationInformations.getAccountSolde() - amount);
+    return setSoldeAndSaveOperation(operationInformations, amount, OperationTypeEnum.DEBIT);
+  }
+
+  @Override
+  public OperationDto credit(Long accountId, Double amount) {
+    OperationDto operationInformations = getAccountAndClientInformationsByAccountId(accountId);
+    if (operationInformations instanceof OperationFailure) {
+      return operationInformations;
+    }
+
+    return setSoldeAndSaveOperation(operationInformations, amount, OperationTypeEnum.CREDIT);
+  }
+
+  @Override
+  public List<OperationDto> wireTransfert(Long accountToDebitId, Long accountToCreditId, Double amount) {
+    List<OperationDto> result = new ArrayList<>(2);
+
+    OperationDto debitOperationInformations = debit(accountToDebitId, amount);
+    result.add(debitOperationInformations);
+    if (debitOperationInformations instanceof OperationFailure) {
+      return result;
+    }
+
+    OperationDto creditOperationInformations = credit(accountToCreditId, amount);
+    result.add(creditOperationInformations);
+
+    return result;
+  }
+
+  /**
+   * Met à jour le solde d'un compte bancaire et sauvegarde l'opération en base de données
+   *
+   * @param operationInformations informations du compte bancaire et de son client
+   * @param amount montant de l'opération
+   * @param type type de l'opération
+   *
+   * @return {@link OperationDto} si le solde a été mis à jour et l'opération sauvegardée, {@link OperationFailure} sinon
+   */
+  private OperationDto setSoldeAndSaveOperation(OperationDto operationInformations, Double amount, OperationTypeEnum type) {
+    Double newSolde = type.equals(OperationTypeEnum.DEBIT) ? operationInformations.getAccountSolde() - amount
+        : operationInformations.getAccountSolde() + amount;
+
+    OperationDto soldeUpdated =
+        setAccountSolde(operationInformations.getAccountId(), newSolde);
     if (soldeUpdated instanceof OperationFailure) {
       return soldeUpdated;
     }
 
     operationInformations.setAccountSolde(soldeUpdated.getAccountSolde());
     operationInformations.setMontant(amount);
-    operationInformations.setType(OperationTypeEnum.DEBIT);
+    operationInformations.setType(type);
     operationInformations.setDate(Util.getCurrentDate());
 
     try {
@@ -60,16 +103,6 @@ public class OperationServiceImpl implements OperationService {
     } catch (Exception e) {
       return new OperationFailure(FailureEnum.DATABASE);
     }
-  }
-
-  @Override
-  public OperationDto credit(Long accountId, Double amount) {
-    return null;
-  }
-
-  @Override
-  public List<OperationDto> wireTransfert(Long accountToDebitId, Long accountToCreditId, Double amount) {
-    return null;
   }
 
   /**
@@ -163,14 +196,8 @@ public class OperationServiceImpl implements OperationService {
     String url = MS_ACCOUNT_URL + "/solde/{id}";
     Map<String, String> params = new HashMap<>();
     params.put("id", accountId.toString());
-    URI uri = UriComponentsBuilder.fromUriString(url)
-                                  .buildAndExpand(params)
-                                  .toUri();
-    uri = UriComponentsBuilder
-        .fromUri(uri)
-        .queryParam("solde", solde)
-        .build()
-        .toUri();
+    URI uri = UriComponentsBuilder.fromUriString(url).buildAndExpand(params).toUri();
+    uri = UriComponentsBuilder.fromUri(uri).queryParam("solde", solde).build().toUri();
     try {
       restTemplate.exchange(uri, HttpMethod.PUT, null, Void.class);
       return OperationDto.builder().accountId(accountId).accountSolde(solde).build();

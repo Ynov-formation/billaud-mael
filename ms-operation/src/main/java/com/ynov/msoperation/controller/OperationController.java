@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/operation/v1")
 @CrossOrigin("*")
@@ -27,6 +29,36 @@ public class OperationController {
     }
 
     return new ResponseEntity<>(operationDto, HttpStatus.CREATED);
+  }
+
+  @PostMapping("/credit")
+  public ResponseEntity<Object> credit(@RequestParam(value = "account_id") Long accountId,
+      @RequestParam Double amount) {
+    OperationDto operationDto = operationService.credit(accountId, amount);
+
+    if (operationDto instanceof OperationFailure operationFailure) {
+      return checkOperationFailure(operationFailure);
+    }
+
+    return new ResponseEntity<>(operationDto, HttpStatus.CREATED);
+  }
+
+  @PostMapping("/virement")
+  public ResponseEntity<?> wireTransfert(@RequestParam(value = "account_to_debit_id") Long accountToDebitId,
+      @RequestParam(value = "account_to_credit_id") Long accountToCreditId,
+      @RequestParam Double amount) {
+    List<OperationDto> listOperationDto = operationService.wireTransfert(accountToDebitId,accountToCreditId, amount);
+
+    if (listOperationDto.get(0) instanceof OperationFailure operationFailure) {
+      return checkOperationFailure(operationFailure);
+    }
+
+
+    if (listOperationDto.get(1) instanceof OperationFailure operationFailure) {
+      return checkOperationFailure(operationFailure);
+    }
+
+    return new ResponseEntity<>(listOperationDto, HttpStatus.CREATED);
   }
 
   /**
