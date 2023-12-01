@@ -35,4 +35,15 @@ public interface OperationService {
    * @return la liste des opérations créées avec des informations complémentaires
    */
   List<OperationDto> wireTransfert(Long accountToDebitId, Long accountToCreditId, Double amount);
+
+  /**
+   * Récupération de la liste des opérations d'un compte bancaire selon des filtres
+   *
+   * @param accountId id du compte bancaire
+   * @param clientId id du client
+   * @param type type d'opération (CREDIT | DEBIT)
+   *
+   * @return la liste des opérations filtrées
+   */
+  List<OperationDto> getOperationsByFilters(Long accountId, Long clientId, String type);
 }

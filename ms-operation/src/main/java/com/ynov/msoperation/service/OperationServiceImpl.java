@@ -14,10 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -69,6 +66,54 @@ public class OperationServiceImpl implements OperationService {
 
     OperationDto creditOperationInformations = credit(accountToCreditId, amount);
     result.add(creditOperationInformations);
+
+    return result;
+  }
+
+  @Override
+  public List<OperationDto> getOperationsByFilters(Long accountId, Long clientId, String type) {
+    List<OperationDto> result = new ArrayList<>();
+    List<Operation> operations;
+    try {
+      operations = operationRepository.findAll();
+    } catch (Exception e) {
+      result.add(new OperationFailure(FailureEnum.DATABASE));
+      return result;
+    }
+
+    if (type != null) {
+      try {
+        OperationTypeEnum.valueOf(type.toUpperCase(Locale.ROOT));
+      } catch (IllegalArgumentException e) {
+        result.add(new OperationFailure(FailureEnum.OPERATION_TYPE_NOT_EXISTS));
+        return result;
+      }
+    }
+
+    operations.forEach(operation -> {
+      if (accountId != null && (!operation.getAccountId().equals(accountId))) {
+          return;
+      }
+
+      if (clientId != null) {
+        OperationDto account = findAccountInformationsByAccountId(operation.getAccountId());
+        if (!clientId.equals(account.getClientId())) {
+          return;
+        }
+      }
+
+      if (type != null && (!operation.getType().equals(OperationTypeEnum.valueOf(type.toUpperCase(Locale.ROOT))))) {
+        return;
+      }
+
+      OperationDto operationInformations = getAccountAndClientInformationsByAccountId(operation.getAccountId());
+      if (operationInformations instanceof OperationFailure) {
+        return;
+      }
+
+      Util.copyNonNullProperties(operation, operationInformations);
+      result.add(operationInformations);
+    });
 
     return result;
   }
