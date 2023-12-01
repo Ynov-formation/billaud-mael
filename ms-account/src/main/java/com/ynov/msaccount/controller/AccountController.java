@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/account/v1")
+@RequestMapping("/accounts/v1")
 @CrossOrigin("*")
 public class AccountController {
   private final AccountService accountService;

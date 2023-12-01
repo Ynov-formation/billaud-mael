@@ -21,8 +21,8 @@ import java.util.*;
 public class OperationServiceImpl implements OperationService {
 
   private static final String GATEWAY_URL = "http://localhost:8888";
-  private static final String MS_ACCOUNT_URL = GATEWAY_URL + "/account/v1";
-  private static final String MS_CLIENT_URL = GATEWAY_URL + "/client/v1";
+  private static final String MS_ACCOUNT_URL = GATEWAY_URL + "/accounts/v1";
+  private static final String MS_CLIENT_URL = GATEWAY_URL + "/clients/v1";
   private final OperationRepository operationRepository;
   private final RestTemplate restTemplate = new RestTemplate();
 
