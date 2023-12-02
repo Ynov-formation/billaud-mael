@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/operation/v1")
+@RequestMapping("/operations/v1")
 @CrossOrigin("*")
 public class OperationController {
   private final OperationService operationService;
@@ -45,9 +45,8 @@ public class OperationController {
 
   @PostMapping("/virement")
   public ResponseEntity<?> wireTransfert(@RequestParam(value = "account_to_debit_id") Long accountToDebitId,
-      @RequestParam(value = "account_to_credit_id") Long accountToCreditId,
-      @RequestParam Double amount) {
-    List<OperationDto> listOperationDto = operationService.wireTransfert(accountToDebitId,accountToCreditId, amount);
+      @RequestParam(value = "account_to_credit_id") Long accountToCreditId, @RequestParam Double amount) {
+    List<OperationDto> listOperationDto = operationService.wireTransfert(accountToDebitId, accountToCreditId, amount);
 
     if (listOperationDto.get(0) instanceof OperationFailure operationFailure) {
       return checkOperationFailure(operationFailure);
@@ -61,6 +60,19 @@ public class OperationController {
     return new ResponseEntity<>(listOperationDto, HttpStatus.CREATED);
   }
 
+  @GetMapping
+  public ResponseEntity<?> getOperationsByFilters(@RequestParam(value = "account_id", required = false) Long accountId,
+      @RequestParam(value = "client_id", required = false) Long clientId,
+      @RequestParam(value = "type", required = false) String type) {
+    List<OperationDto> listOperationDto = operationService.getOperationsByFilters(accountId, clientId, type);
+
+    if (listOperationDto.get(0) instanceof OperationFailure operationFailure) {
+      return checkOperationFailure(operationFailure);
+    }
+
+    return new ResponseEntity<>(listOperationDto, HttpStatus.OK);
+  }
+
   /**
    * Vérifie le type d'exception et retourne la {@link ResponseEntity} correspondante
    *
@@ -70,10 +82,12 @@ public class OperationController {
    */
   private ResponseEntity<Object> checkOperationFailure(OperationFailure accountFailure) {
     return switch (accountFailure.getExceptionType()) {
-      case CAN_NOT_GET_ACCOUNT -> new ResponseEntity<>(FailureEnum.CAN_NOT_GET_ACCOUNT.getMessage(),
-          HttpStatus.INTERNAL_SERVER_ERROR);
-      case CAN_NOT_UPDATE_SOLDE -> new ResponseEntity<>(FailureEnum.CAN_NOT_UPDATE_SOLDE.getMessage(),
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      case OPERATION_TYPE_NOT_EXISTS ->
+          new ResponseEntity<>(FailureEnum.OPERATION_TYPE_NOT_EXISTS.getMessage(), HttpStatus.BAD_REQUEST);
+      case CAN_NOT_GET_ACCOUNT ->
+          new ResponseEntity<>(FailureEnum.CAN_NOT_GET_ACCOUNT.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+      case CAN_NOT_UPDATE_SOLDE ->
+          new ResponseEntity<>(FailureEnum.CAN_NOT_UPDATE_SOLDE.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
       case ACCOUNT_NOT_EXISTS ->
           new ResponseEntity<>(FailureEnum.ACCOUNT_NOT_EXISTS.getMessage(), HttpStatus.NOT_FOUND);
       case INSUFFICIENT_ACCOUNT_BALANCE ->

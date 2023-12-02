@@ -22,7 +22,7 @@ import java.util.Optional;
 @Transactional
 public class AccountServiceImpl implements AccountService {
 
-  private static final String CLIENT_SERVICE_URL = "http://localhost:8888/client/v1";
+  private static final String CLIENT_SERVICE_URL = "http://localhost:8888/clients/v1";
   private final AccountRepository accountRepository;
   private final RestTemplate restTemplate = new RestTemplate();
 

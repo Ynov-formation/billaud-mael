@@ -10,74 +10,74 @@
 			"name": "Client",
 			"item": [
 				{
-					"name": "client",
+					"name": "clients",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nom\": \"Billaud\",\r\n    \"prenom\": \"Mael1\",\r\n    \"email\": \"email.test2@gmail.com\",\r\n    \"dateNaissance\": \"12-12-2012\"\r\n}",
+							"raw": "{\r\n    \"nom\": \"Does\",\r\n    \"prenom\": \"John\",\r\n    \"email\": \"email.test@mail.com\",\r\n    \"dateNaissance\": \"12-12-2014\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{Gateway URL}}/client/v1"
+						"url": "{{Gateway URL}}/clients/v1"
 					},
 					"response": []
 				},
 				{
-					"name": "client/{id}",
+					"name": "clients/{id}",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 12,\r\n    \"nom\": \"Billaud2\",\r\n    \"prenom\": \"Mael2\"\r\n}",
+							"raw": "{\r\n    \"id\": 12,\r\n    \"nom\": \"Does\",\r\n    \"prenom\": \"John\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{Gateway URL}}/client/v1/152"
+						"url": "{{Gateway URL}}/clients/v1/152"
 					},
 					"response": []
 				},
 				{
-					"name": "client/{id}",
+					"name": "clients/{id}",
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "{{Gateway URL}}/client/v1/102"
+						"url": "{{Gateway URL}}/clients/v1/102"
 					},
 					"response": []
 				},
 				{
-					"name": "client",
+					"name": "clients",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{Gateway URL}}/client/v1"
+						"url": "{{Gateway URL}}/clients/v1"
 					},
 					"response": []
 				},
 				{
-					"name": "client/{id}",
+					"name": "clients/{id}",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{Gateway URL}}/client/v1/53"
+						"url": "{{Gateway URL}}/clients/v1/53"
 					},
 					"response": []
 				},
 				{
-					"name": "client/email/{email}",
+					"name": "clients/email/{email}",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{Gateway URL}}/client/v1/email/email.test@gmail.com"
+						"url": "{{Gateway URL}}/clients/v1/email/email.test@mail.com"
 					},
 					"response": []
 				}
@@ -87,13 +87,13 @@
 			"name": "Account",
 			"item": [
 				{
-					"name": "account",
+					"name": "accounts",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"libelle\": \"Compte courant\",\r\n    \"solde\": 0\r\n}",
+							"raw": "{\r\n    \"libelle\": \"Compte courant\",\r\n    \"solde\": 250\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -101,23 +101,23 @@
 							}
 						},
 						"url": {
-							"raw": "{{Gateway URL}}/account/v1?client_id=1",
+							"raw": "{{Gateway URL}}/accounts/v1?client_id=3",
 							"host": [
 								"{{Gateway URL}}"
 							],
 							"path": [
-								"account",
+								"accounts",
 								"v1"
 							],
 							"query": [
 								{
 									"key": "client_email",
-									"value": "email.test2@gmail.com",
+									"value": "email.test@mail.com",
 									"disabled": true
 								},
 								{
 									"key": "client_id",
-									"value": "1"
+									"value": "3"
 								}
 							]
 						}
@@ -125,25 +125,25 @@
 					"response": []
 				},
 				{
-					"name": "account/{id}",
+					"name": "accounts/{id}",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 1,\r\n    \"libelle\": \"Compte courant 1\",\r\n    \"solde\": 20,\r\n    \"clientId\": 152\r\n}",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"libelle\": \"Compte courant\",\r\n    \"solde\": 1000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{Gateway URL}}/account/v1/202"
+						"url": "{{Gateway URL}}/accounts/v1/3"
 					},
 					"response": []
 				},
 				{
-					"name": "account/solde/{id}",
+					"name": "accounts/solde/{id}",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -157,12 +157,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{Gateway URL}}/account/v1/solde/352?solde=100",
+							"raw": "{{Gateway URL}}/accounts/v1/solde/352?solde=100",
 							"host": [
 								"{{Gateway URL}}"
 							],
 							"path": [
-								"account",
+								"accounts",
 								"v1",
 								"solde",
 								"352"
@@ -178,7 +178,7 @@
 					"response": []
 				},
 				{
-					"name": "account/{id}",
+					"name": "accounts/{id}",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -191,12 +191,12 @@
 								}
 							}
 						},
-						"url": "{{Gateway URL}}/account/v1/103"
+						"url": "{{Gateway URL}}/accounts/v1/103"
 					},
 					"response": []
 				},
 				{
-					"name": "account/client/{id}",
+					"name": "accounts/client/{id}",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -209,12 +209,12 @@
 								}
 							}
 						},
-						"url": "{{Gateway URL}}/account/v1/client/1"
+						"url": "{{Gateway URL}}/accounts/v1/client/1"
 					},
 					"response": []
 				},
 				{
-					"name": "account",
+					"name": "accounts",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -230,12 +230,12 @@
 								}
 							}
 						},
-						"url": "{{Gateway URL}}/account/v1"
+						"url": "{{Gateway URL}}/accounts/v1"
 					},
 					"response": []
 				},
 				{
-					"name": "account/{id}",
+					"name": "accounts/{id}",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -251,12 +251,12 @@
 								}
 							}
 						},
-						"url": "{{Gateway URL}}/account/v1/100"
+						"url": "{{Gateway URL}}/accounts/v1/1"
 					},
 					"response": []
 				},
 				{
-					"name": "account/client/{id}",
+					"name": "accounts/client/{id}",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -272,7 +272,7 @@
 								}
 							}
 						},
-						"url": "{{Gateway URL}}/account/v1/client/15"
+						"url": "{{Gateway URL}}/accounts/v1/client/15"
 					},
 					"response": []
 				}
@@ -282,24 +282,24 @@
 			"name": "Operation",
 			"item": [
 				{
-					"name": "operation/debit",
+					"name": "operations/debit",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{Gateway URL}}/operation/v1/debit?account_id=306&amount=950",
+							"raw": "{{Gateway URL}}/operations/v1/debit?account_id=1&amount=950",
 							"host": [
 								"{{Gateway URL}}"
 							],
 							"path": [
-								"operation",
+								"operations",
 								"v1",
 								"debit"
 							],
 							"query": [
 								{
 									"key": "account_id",
-									"value": "306"
+									"value": "1"
 								},
 								{
 									"key": "amount",
@@ -311,28 +311,28 @@
 					"response": []
 				},
 				{
-					"name": "operation/credit",
+					"name": "operations/credit",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{Gateway URL}}/operation/v1/credit?account_id=306&amount=1000",
+							"raw": "{{Gateway URL}}/operations/v1/credit?account_id=2&amount=5000",
 							"host": [
 								"{{Gateway URL}}"
 							],
 							"path": [
-								"operation",
+								"operations",
 								"v1",
 								"credit"
 							],
 							"query": [
 								{
 									"key": "account_id",
-									"value": "306"
+									"value": "2"
 								},
 								{
 									"key": "amount",
-									"value": "1000"
+									"value": "5000"
 								}
 							]
 						}
@@ -340,32 +340,67 @@
 					"response": []
 				},
 				{
-					"name": "operation/virement",
+					"name": "operations/virement",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{Gateway URL}}/operation/v1/virement?account_to_debit_id=306&account_to_credit_id=352&amount=15",
+							"raw": "{{Gateway URL}}/operations/v1/virement?account_to_debit_id=2&account_to_credit_id=5&amount=999",
 							"host": [
 								"{{Gateway URL}}"
 							],
 							"path": [
-								"operation",
+								"operations",
 								"v1",
 								"virement"
 							],
 							"query": [
 								{
 									"key": "account_to_debit_id",
-									"value": "306"
+									"value": "2"
 								},
 								{
 									"key": "account_to_credit_id",
-									"value": "352"
+									"value": "5"
 								},
 								{
 									"key": "amount",
-									"value": "15"
+									"value": "999"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "operations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Gateway URL}}/operations/v1",
+							"host": [
+								"{{Gateway URL}}"
+							],
+							"path": [
+								"operations",
+								"v1"
+							],
+							"query": [
+								{
+									"key": "account_id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "client_id",
+									"value": "3",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "CREDIT",
+									"disabled": true
 								}
 							]
 						}
